@@ -20,6 +20,6 @@
     </div>
   <?php } ?>
   <div class="search">
-    <input type="text" name="s" class="search-field" palceholder="Search...">
+    <input type="text" name="s" class="search-field" placeholder="Search...">
   </div>
 </div>
