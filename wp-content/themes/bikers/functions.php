@@ -10,6 +10,28 @@
     wp_localize_script( 'custom-script', 'ajax', array('ajaxurl' => admin_url( 'admin-ajax.php' )));
   }
 
+  // for load more
+  add_action("wp_ajax_load_more", "load_more");
+  add_action("wp_ajax_nopriv_load_more", "load_more");
+  function load_more() {
+    $args = array(
+      'post_type' => 'bike',
+      'orderby' => 'title',
+      'order' =>'ASC',
+      'post_status' => 'publish',
+      'offset' => $_POST['offset'],
+      'posts_per_page' => $_POST['posts_per_page']
+    );
+
+    $query = new WP_Query( $args );
+    $output = array();
+    if ($query -> have_posts()) {
+      $args = array('query' => $query);
+      get_template_part('template-parts/pages/bike/content', 'list', $args);
+    }
+    die();
+  }
+
   // theme support
   add_action('after_setup_theme', 'custom_theme_setup');
   function custom_theme_setup() {
@@ -117,4 +139,4 @@
       'rewrite'           => array( 'slug' => $tax_name ),
     ));
   }
-  ?>
+?>

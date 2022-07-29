@@ -11,12 +11,12 @@
     'posts_per_page' => $posts_per_page
   );
   $query = new WP_Query( $args );
-
+  $total_posts = $query->found_posts;
   if ($query -> have_posts()) { ?>
   <section class="bike-post">
     <div class="wrapper">
       <?php get_template_part('template-parts/pages/bike/content', 'filter'); ?>
-      <ul class="post-container" data-posts="<?php echo $posts_per_page; ?>">
+      <ul class="post-container" data-posts="<?php echo $posts_per_page; ?>" data-all-posts="<?php echo $total_posts; ?>">
         <?php
           $args = array('query' => $query);
           get_template_part('template-parts/pages/bike/content', 'list', $args);
