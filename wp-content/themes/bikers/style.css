@@ -264,6 +264,40 @@ header .wrapper {
   font-size: 14px;
 }
 /* bike-post-detail section ended here */
+/* random-post-detail section started here */
+.random-post-main-heading {
+  margin-top: 30px;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.random-post-container {
+  width: 80%;
+  margin: 30px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.random-post-list {
+  display: flex;
+  background-color: var(--primary-color);
+  align-items: center;
+  flex-basis: 30%;
+}
+
+.random-post-image { flex-basis: 30%; }
+.random-post-heading { flex-basis: 70%; }
+
+.random-post-title {
+  padding: 17px 0;
+  display: block;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+/* random-post-detail section ended here */
 /* single bike page styling ended here */
 /*=================================
   main styling ends here
@@ -272,11 +306,6 @@ header .wrapper {
 /*=================================
   footer styling starts here
 =================================*/ 
-
-
-
-
-
 
 
  /*=================================
