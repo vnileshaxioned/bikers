@@ -11,20 +11,38 @@
   }
 
   // for load more
-  add_action("wp_ajax_load_more", "load_more");
-  add_action("wp_ajax_nopriv_load_more", "load_more");
-  function load_more() {
+  add_action("wp_ajax_filter_search", "filter_search");
+  add_action("wp_ajax_nopriv_filter_search", "filter_search");
+  function filter_search() {
+    $offset = $_POST['offset'];
+    $post_per_page = $_POST['post_per_page'];
+    $color = $_POST['color'];
+    $search = $_POST['search'];
     $args = array(
       'post_type' => 'bike',
       'orderby' => 'title',
       'order' =>'ASC',
       'post_status' => 'publish',
-      'offset' => $_POST['offset'],
-      'posts_per_page' => $_POST['posts_per_page']
+      'offset' => $offset,
     );
 
+    if ($color && ($color != 'all')) {
+      $args['posts_per_page'] = -1;
+      $args['tax_query'] = array(
+        array(
+          'taxonomy' => 'color',
+          'field' => 'slug',
+          'terms' => $color
+        )
+      );
+    }
+
+    if ($search) {
+      $args['posts_per_page'] = -1;
+      $args['s'] = $search;
+    }
+
     $query = new WP_Query( $args );
-    $output = array();
     if ($query -> have_posts()) {
       $args = array('query' => $query);
       get_template_part('template-parts/pages/bike/content', 'list', $args);
@@ -64,7 +82,7 @@
   }
 
   //excerpt length
-  add_filter( 'excerpt_length', 'excerptLength', 999);
+  add_action( 'excerpt_length', 'excerptLength', 999);
   function excerptLength( $length ) {
     return 50;
   }
