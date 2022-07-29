@@ -42,4 +42,35 @@
     );
     register_post_type( $cpt, $args );
   }
+
+  // custom taxonomy
+  add_action( 'init', function() {
+    custom_taxonomy('color', 'bike');
+  });
+  function custom_taxonomy($tax_name, $cpt) {
+    $capitalize_tax_name = ucfirst($tax_name);
+    $labels = array(
+      'name' => _x( $capitalize_tax_name.'s', 'taxonomy general name' ),
+      'singular_name'     => _x( $capitalize_tax_name, 'taxonomy singular name' ),
+      'search_items'      =>  __( 'Search '.$capitalize_tax_name.'s' ),
+      'all_items'         => __( 'All '.$capitalize_tax_name.'s' ),
+      'parent_item'       => __( 'Parent '.$capitalize_tax_name ),
+      'parent_item_colon' => __( 'Parent '.$capitalize_tax_name ),
+      'edit_item'         => __( 'Edit '.$capitalize_tax_name ),
+      'update_item'       => __( 'Update '.$capitalize_tax_name ),
+      'add_new_item'      => __( 'Add New '.$capitalize_tax_name ),
+      'new_item_name'     => __( 'New '.$capitalize_tax_name ),
+      'not_found'         => __( 'No '.$tax_name.'s found' ),
+      'menu_name'         => __( $capitalize_tax_name.'s' ),
+    );
+    register_taxonomy( $tax_name, array($cpt), array(
+      'hierarchical'      => true,
+      'labels'            => $labels,
+      'show_ui'           => true,
+      'show_in_rest'      => true,
+      'show_admin_column' => true,
+      'query_var'         => true,
+      'rewrite'           => array( 'slug' => $tax_name ),
+    ));
+  }
 ?>
