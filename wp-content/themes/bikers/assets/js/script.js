@@ -28,6 +28,7 @@
         },
         datatype: 'json',
         success: function (response) {
+          console.log(response);
           if (response.length) {
             $('.post-container').html(response);
           } else {
@@ -40,23 +41,28 @@
       });
     }
     
+    // for load more
     var postPerPage = $('.post-container').attr('data-posts'),
-      allPosts = $('.post-container').attr('data-all-posts'),
       counts = parseInt(postPerPage),
       count = counts;
-    $('.load-more-button').click(function (e) {
-      e.preventDefault();
-      console.log(postPerPage);
+      $('.load-more-button').click(function (e) {
+      var color = $('.filter-taxonomy option:selected').val(),
+        search = $('.search-field').val(),
+        allPosts = $('.post-list:first-child').attr('data-all-posts');
+        e.preventDefault();
       $.ajax({
         type: 'post',
         url: ajax.ajaxurl,
         data: {
           action: 'filter_search',
+          color: color,
+          search: search,
           offset: count,
           post_per_page: postPerPage,
         },
         datatype: 'json',
         success: function (response) {
+          console.log(allPosts);
           $('.post-container').append(response);
           var postLength = $('.post-list').length;
           if (postLength == allPosts) {
