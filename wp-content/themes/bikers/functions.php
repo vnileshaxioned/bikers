@@ -10,7 +10,7 @@
     wp_localize_script( 'custom-script', 'ajax', array('ajaxurl' => admin_url( 'admin-ajax.php' )));
   }
 
-  // for load more
+  // for load more, filter and search
   add_action("wp_ajax_filter_search", "filter_search");
   add_action("wp_ajax_nopriv_filter_search", "filter_search");
   function filter_search() {
@@ -24,10 +24,10 @@
       'order' =>'ASC',
       'post_status' => 'publish',
       'offset' => $offset,
+      'posts_per_page' => $post_per_page
     );
 
     if ($color && ($color != 'all')) {
-      $args['posts_per_page'] = -1;
       $args['tax_query'] = array(
         array(
           'taxonomy' => 'color',
@@ -37,14 +37,15 @@
       );
     }
 
-    if ($search) {
-      $args['posts_per_page'] = -1;
-      $args['s'] = $search;
-    }
+    $search ? $args['s'] = $search : null;
 
     $query = new WP_Query( $args );
+    $total_posts = $query->found_posts;
     if ($query -> have_posts()) {
-      $args = array('query' => $query);
+      $args = array(
+        'query' => $query,
+        'total_count' => $total_posts
+      );
       get_template_part('template-parts/pages/bike/content', 'list', $args);
     }
     die();

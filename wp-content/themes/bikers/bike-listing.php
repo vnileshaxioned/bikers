@@ -1,3 +1,4 @@
+
 <?php
 /* Template Name: Bike Listing */
   get_header();
@@ -16,9 +17,12 @@
   <section class="bike-post">
     <div class="wrapper">
       <?php get_template_part('template-parts/pages/bike/content', 'filter'); ?>
-      <ul class="post-container" data-posts="<?php echo $posts_per_page; ?>" data-all-posts="<?php echo $total_posts; ?>">
+      <ul class="post-container" data-posts="<?php echo $posts_per_page; ?>">
         <?php
-          $args = array('query' => $query);
+          $args = array(
+            'query' => $query,
+            'total_count' => $total_posts
+          );
           get_template_part('template-parts/pages/bike/content', 'list', $args);
         ?>
       </ul>

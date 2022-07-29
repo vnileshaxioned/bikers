@@ -1,4 +1,5 @@
 <?php
+  $total_posts = $args['total_count'];
   $query = $args['query'];
   while ($query -> have_posts()) {
     $query -> the_post();
@@ -13,7 +14,7 @@
     $date = get_the_date();
     
     if ($permalink || $title || $excerpt || $image_url || $image_alt || $colors || $date) { ?>
-    <li class="post-list">
+    <li class="post-list" data-all-posts="<?php echo $total_posts; ?>">
       <?php if ($permalink && $title) { ?>
         <h3 class="post-heading">
           <a href="<?php echo $permalink; ?>" class="post-title" title="<?php echo $title; ?>"><?php echo $title; ?></a>
