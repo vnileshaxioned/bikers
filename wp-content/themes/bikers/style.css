@@ -236,12 +236,35 @@ header .wrapper {
 }
 /* bike listing page styling ended here */
 
+/* single bike page styling started here */
+/* bike-post-detail section started here */
+.detail-post-title {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+}
 
+.detail-post-image {
+  width: 45%;
+  margin: 20px auto;
+}
 
+.wysiwyg-editor {
+  width: 80%;
+  margin: 0 auto;
+}
 
+.wysiwyg-editor h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
 
-
-
+.wysiwyg-editor p {
+  margin-top: 6px;
+  font-size: 14px;
+}
+/* bike-post-detail section ended here */
+/* single bike page styling ended here */
 /*=================================
   main styling ends here
 =================================*/
