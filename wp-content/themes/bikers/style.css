@@ -192,13 +192,16 @@ header .wrapper {
 .post-container {
   margin-top: 30px;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .post-list {
+  margin: 0 5% 20px 0;
   flex-basis: 30%;
   box-shadow: 0 0 10px #000;
 }
+
+.post-list:nth-child(3n) { margin-right: 0; }
 
 .post-title {
   padding: 14px 0;
