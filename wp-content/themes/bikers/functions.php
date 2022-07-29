@@ -2,13 +2,57 @@
   // for classic editor
   add_filter('use_block_editor_for_post', '__return_false');
 
+  // enqueue the style and script files
+  add_action('wp_enqueue_scripts', 'test_theme_script');
+  function test_theme_script() {
+    wp_enqueue_style('custom-styling', get_stylesheet_uri());
+    wp_enqueue_script('custom-script', get_template_directory_uri().'/assets/js/script.js', array('jquery'), null, true);
+    wp_localize_script( 'custom-script', 'ajax', array('ajaxurl' => admin_url( 'admin-ajax.php' )));
+  }
+
+  // theme support
+  add_action('after_setup_theme', 'custom_theme_setup');
+  function custom_theme_setup() {
+    add_theme_support('title-tag');
+    add_theme_support( 'post-thumbnails' );
+    register_nav_menus( array(
+      'primary' => __('Primary Menu', 'customtheme')
+    ) );
+  }
+
+  //custom menu structure
+  function custom_menu($location_name) {
+    if (($locations = get_nav_menu_locations()) && $locations[$location_name]) {
+      $menu_id = get_nav_menu_locations()[$location_name];
+      $menu_items = wp_get_nav_menu_items($menu_id);
+
+      $menu_list = '<nav class="navbar-'.$location_name.'">';
+      $menu_list .= '<ul class="menu">';
+      foreach ($menu_items as $menu_item) {
+        $title = $menu_item->title;
+        $url = $menu_item->url;
+        $menu_list .= '<li class="menu-list">';
+        $menu_list .= '<a href="'.$url.'" class="menu-item" title="'.$title.'">'.$title.'</a>';
+        $menu_list .= '</li>';
+      }
+      $menu_list .= '</ul>';
+      $menu_list .= '</nav>';
+    }
+    echo $menu_list;
+  }
+
+  //excerpt length
+  add_filter( 'excerpt_length', 'excerptLength', 999);
+  function excerptLength( $length ) {
+    return 50;
+  }
+  
   // custom post type
   add_action( 'init', function() {
     custom_post_type('bike', 'dashicons-post-status');
   });
   function custom_post_type($cpt, $icon = 'dashicons-admin-post') {
     $capitalize_cpt = ucfirst($cpt);
-    var_dump($cpt);
     $labels = array(
       'name'                => _x( $capitalize_cpt.'s', 'Post Type General Name', 'customtheme' ),
       'singular_name'       => _x( $cpt, 'Post Type Singular Name', 'customtheme' ),
@@ -73,4 +117,4 @@
       'rewrite'           => array( 'slug' => $tax_name ),
     ));
   }
-?>
+  ?>
